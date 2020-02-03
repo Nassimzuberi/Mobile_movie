@@ -1,35 +1,42 @@
-import React from 'react';
-import {StyleSheet,View,Text,TextInput,Button,FlatList,ActivityIndicator} from 'react-native';
-import FilmItem from './FilmItem';
+import React from 'react'
+import { StyleSheet ,View, Text ,TextInput,Button,FlatList, ActivityIndicator } from 'react-native'
+import FilmItem from './FilmItem'
 import { getFilmsFromApiWithSearchedText } from '../api/TMDBapi' // import { } from ... car c'est un export nommé dans TMDBApi.js
 class Search extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this.searchedText = ""// Initialisation de notre donnée searchedText dans le state
+    this.searchedText = ''// Initialisation de notre donnée searchedText dans le state
     this.page = 0 // Compteur pour connaître la page courante
     this.totalPages = 0 // Nombre de pages totales pour savoir si on a atteint la fin des retours de l'API TMDB
     this.state = {
-      films : [],
-      isLoading : false,
+      films: [],
+      isLoading: false
     }
   }
-  _searchTextInputChanged(text) {
-    this.searchedText = text
+
+  _displayDetailForFilm = (idFilm) => {
+  this.props.navigation.navigate("FilmDetail",{idFilm})
 }
-  _loadFilms() {
+
+  _searchTextInputChanged (text) {
+    this.searchedText = text
+  }
+
+  _loadFilms () {
     if (this.searchedText.length > 0) { // Seulement si le texte recherché n'est pas vide
-      this.setState({ isLoading: true }) ;
-      getFilmsFromApiWithSearchedText(this.searchedText,this.page = 1).then(data => {
+      this.setState({ isLoading: true })
+      getFilmsFromApiWithSearchedText(this.searchedText, this.page = 1).then(data => {
         this.page = data.page
         this.totalPages = data.total_pages
-          this.setState({
-            films: [...this.state.films,...data.results],
-            isLoading:false,
-          })
+        this.setState({
+          films: [...this.state.films, ...data.results],
+          isLoading: false
+        })
       })
     }
-   }
-   _displayLoading() {
+  }
+
+  _displayLoading () {
      if (this.state.isLoading) {
        return (
          <View style={styles.loading_container}>
@@ -49,8 +56,8 @@ class Search extends React.Component {
     })
     // Ici on va remettre à zéro les films de notre state
 }
-  render() {
-    console.log('Coucou')
+
+  render () {
       return (
         <View style={styles.main_container}>
         <TextInput
@@ -63,7 +70,7 @@ class Search extends React.Component {
           <FlatList
             data={this.state.films}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => <FilmItem film={item}/>}
+            renderItem={({item}) => <FilmItem film={item} _displayDetailForFilm={this._displayDetailForFilm}/>}
             onEndReachedThreshold={0.5}
             onEndReached={() => {
               if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
