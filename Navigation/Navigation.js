@@ -6,7 +6,8 @@ import Search from '../components/Search'
 import FilmDetail from '../components/FilmDetail'
 import Favorites from '../components/Favorites'
 import { StyleSheet, Image } from 'react-native'
-import Test from '../components/Test.js'
+import News from '../components/News'
+
 const SearchStackNavigator = createStackNavigator({
   Search: { // Ici j'ai appelé la vue "Search" mais on peut mettre ce que l'on veut. C'est le nom qu'on utilisera pour appeler cette vue
     screen: Search,
@@ -31,12 +32,19 @@ const FavoriteStackNavigator = createStackNavigator({
   }
 })
 
+const NewsStackNavigator = createStackNavigator({
+  Search: { // Ici j'ai appelé la vue "Search" mais on peut mettre ce que l'on veut. C'est le nom qu'on utilisera pour appeler cette vue
+    screen: News,
+    navigationOptions: {
+      title: 'Les Derniers Films'
+    }
+  },
+  FilmDetail: { // Encore une fois j'ai mis le même nom que celui du component mais libre à vous de choisir un nom différent
+    screen: FilmDetail
+  }
+})
+
 const MoviesTabNavigator = createBottomTabNavigator({
-  Test: {
-
-  screen: Test
-
-},
   Search: {
     screen: SearchStackNavigator,
     navigationOptions: {
@@ -60,6 +68,22 @@ const MoviesTabNavigator = createBottomTabNavigator({
       }
 
     }
+
+  },
+  News: {
+
+  screen: NewsStackNavigator,
+  navigationOptions: {
+
+    tabBarIcon: () => {
+      return <Image
+
+        source={require('../Images/ic_fiber_new.png')}
+
+        style={styles.icon}/>
+    }
+
+  }
 
   }
 },  {

@@ -266,7 +266,7 @@ share_touchable_headerrightbutton: {
 
 const mapStateToProps = (state) => {
   return {
-  favoritesFilm: state.favoritesFilm
+  favoritesFilm: state.toggleFavorite.favoritesFilm
 }
 }
 
