@@ -10,7 +10,7 @@
     "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/masked-view": "^0.1.6",
     "expo": "~36.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "nuclide": "^0.366.0",
     "numeral": "^2.0.6",
     "react": "~16.9.0",
